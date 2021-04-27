@@ -5,6 +5,7 @@ read_data_path = './mygit/resources/event_extract_pretrain/data'
 save_path = './mygit/resources/event_extract_pretrain/model'
 
 #基本参数
+
 maxlen = 156
 epochs = 10
 batch_size = 12

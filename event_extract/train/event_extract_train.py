@@ -15,7 +15,7 @@ import numpy as np
 
 predicate2id, id2predicate, train_data, valid_data = get_data(Config.read_data_path)
 # 建立分词器
-tokenizer = Tokenizer(Config.dict_path)
+tokenizer = Tokenizer(Config.dict_path, do_lower_case=True)
 
 
 def extrac_subject(inputs):
@@ -86,7 +86,8 @@ def build_model():
 
 
 def extract_spoes(text, subject_model, object_model):
-    tokens = Tokenizer.tokenize(text, maxlen=Config.maxlen)
+
+    tokens = tokenizer.tokenize(text, maxlen=Config.maxlen)
     mapping = tokenizer.rematch(text, tokens)
     token_ids, segment_ids = tokenizer.encode(text, maxlen=Config.maxlen)
 
@@ -186,10 +187,10 @@ class Evaluator(keras.callbacks.Callback):
 if __name__ == "__main__":
     train_model, subject_model, object_model = build_model()
     train_generator = data_generator(tokenizer, predicate2id, Config.maxlen, train_data, Config.batch_size)
-    evalutor = Evaluator(train_model, subject_model, object_model)
+    evaluator = Evaluator(train_model, subject_model, object_model)
     train_model.fit_generator(
         train_generator.forfit(),
         steps_per_epoch=len(train_generator),
         epochs=Config.epochs,
-        callbacks=[evalutor]
+        callbacks=[evaluator]
     )

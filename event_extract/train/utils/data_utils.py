@@ -8,7 +8,6 @@ def get_data(path):
     # 读取数据
     train = pd.read_csv(path + '/chusai_data/train/train1.csv', encoding='utf-8')
     train.fillna('', inplace=True)
-    # test = pd.read_csv(path+'/chusai_data/test/test1.csv', encoding='utf-8')
 
     # 谓语动词编码
     triger_lists = list(set(train['trigger'].tolist()))
@@ -61,8 +60,8 @@ class data_generator(DataGenerator):
                 s = event['subject']
                 o = event['object']
                 p = self.predicate2id[p]
-                s = self.tokenizer.encode(s)[1:-1]
-                o = self.tokenizer.encode(o)[1:-1]
+                s = self.tokenizer.encode(s)[0][1:-1]
+                o = self.tokenizer.encode(o)[0][1:-1]
                 s_idx = search(s, token_ids)
                 o_idx = search(o, token_ids)
                 if s_idx != -1 and o_idx != -1:
@@ -98,10 +97,9 @@ class data_generator(DataGenerator):
                 if len(batch_token_ids) == self.batch_size or is_end:
                     batch_token_ids = sequence_padding(batch_token_ids)
                     batch_segment_ids = sequence_padding(batch_segment_ids)
-                    batch_subject_labels = sequence_padding(batch_subject_labels, padding=np.zeros(2))
+                    batch_subject_labels = sequence_padding(batch_subject_labels)
                     batch_subject_ids = np.array(batch_subject_ids)
-                    batch_object_labels = sequence_padding(batch_subject_labels,
-                                                           padding=np.zeros((len(self.predicate2id, 2))))
+                    batch_object_labels = sequence_padding(batch_object_labels)
                     yield [
                               batch_token_ids, batch_segment_ids,
                               batch_subject_labels, batch_subject_ids,
