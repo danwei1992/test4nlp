@@ -1,4 +1,4 @@
-from mygit.test4nlp.event_extract.config import event_extract_config as Config
+from test4nlp.event_extract.config import event_extract_config as Config
 import pandas as pd
 import numpy as np
 from bert4keras.snippets import DataGenerator, sequence_padding
@@ -61,8 +61,8 @@ class data_generator(DataGenerator):
                 s = event['subject']
                 o = event['object']
                 p = self.predicate2id[p]
-                s = self.tokenizer.encode(s)[1:-1]
-                o = self.tokenizer.encode(o)[1:-1]
+                s = self.tokenizer.encode(s)[0][1:-1]
+                o = self.tokenizer.encode(o)[0][1:-1]
                 s_idx = search(s, token_ids)
                 o_idx = search(o, token_ids)
                 if s_idx != -1 and o_idx != -1:
@@ -101,7 +101,7 @@ class data_generator(DataGenerator):
                     batch_subject_labels = sequence_padding(batch_subject_labels, padding=np.zeros(2))
                     batch_subject_ids = np.array(batch_subject_ids)
                     batch_object_labels = sequence_padding(batch_subject_labels,
-                                                           padding=np.zeros((len(self.predicate2id, 2))))
+                                                           padding=np.zeros((len(self.predicate2id), 2)))
                     yield [
                               batch_token_ids, batch_segment_ids,
                               batch_subject_labels, batch_subject_ids,

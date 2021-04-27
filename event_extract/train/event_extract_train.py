@@ -5,10 +5,10 @@ from bert4keras.backend import K, batch_gather, keras
 from bert4keras.layers import LayerNormalization
 from keras.layers import *
 from keras.models import Model
-import os, sys
-sys.path.append(os.getcwd())
-from mygit.test4nlp.event_extract.config import event_extract_config as Config
-from mygit.test4nlp.event_extract.train.utils.data_utils import get_data, data_generator
+# import os, sys
+# sys.path.append(os.getcwd())
+from test4nlp.event_extract.config import event_extract_config as Config
+from test4nlp.event_extract.train.utils.data_utils import get_data, data_generator
 from tqdm import tqdm
 import json
 import numpy as np
