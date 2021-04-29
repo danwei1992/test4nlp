@@ -1,5 +1,6 @@
 from bert4keras.models import build_transformer_model
 from bert4keras.tokenizers import Tokenizer
+from bert4keras.snippets import to_array
 from bert4keras.optimizers import Adam
 from bert4keras.backend import K, batch_gather, keras
 from bert4keras.layers import LayerNormalization
@@ -15,7 +16,7 @@ import numpy as np
 
 predicate2id, id2predicate, train_data, valid_data = get_data(Config.read_data_path)
 # 建立分词器
-tokenizer = Tokenizer(Config.dict_path)
+tokenizer = Tokenizer(Config.dict_path, do_lower_case=True)
 
 
 def extrac_subject(inputs):
@@ -86,21 +87,22 @@ def build_model():
 
 
 def extract_spoes(text, subject_model, object_model):
-    tokens = Tokenizer.tokenize(text, maxlen=Config.maxlen)
+
+    tokens = tokenizer.tokenize(text, maxlen=Config.maxlen)
     mapping = tokenizer.rematch(text, tokens)
     token_ids, segment_ids = tokenizer.encode(text, maxlen=Config.maxlen)
 
     # 抽取subject
     subject_preds = subject_model.predict([[token_ids], [segment_ids]])
     start = np.where(subject_preds[0, :, 0] > 0.5)[0]
-    end = np.where(subject_preds[0, :, 1] > 0.5)[0]
+    end = np.where(subject_preds[0, :, 1] > 0.4)[0]
     subjects = []
     for i in start:
         j = end[end >= i]
         if len(j) > 0:
             j = j[0]
             subjects.append((i, j))
-
+    print(subjects)
     if subjects:
         spons = []
         token_ids = np.repeat([token_ids], len(subjects), 0)
@@ -112,56 +114,50 @@ def extract_spoes(text, subject_model, object_model):
             end = np.where(object_pred[:, :, 1] > 0.5)
             for _start, predicate1 in zip(*start):
                 for _end, predicate2 in zip(*end):
-                    if _start <= _end and predicate1 == predicate2:
-                        spons.append(
-                            ((mapping[subject[0]][0], mapping[subject[1]][-1]), predicate1,
-                             (mapping[_start][0], mapping[_end][-1]))
-                        )
-                        break
-        return [(text[s[0]:s[1] + 1], id2predicate(p), text[o[0]:o[1] + 1]) for s, p, o in spons]
+                    try:
+                        if _start <= _end and predicate1 == predicate2:
+                            spons.append(
+                                ((mapping[subject[0]][0], mapping[subject[1]][-1]), predicate1,
+                                 (mapping[_start][0], mapping[_end][-1]))
+                            )
+                            break
+                    except Exception as err:
+                        pass
+        return [(text[s[0]:s[1] + 1], id2predicate[p], text[o[0]:o[1] + 1]) for s, p, o in spons]
     else:
         return []
 
 
-class SPO(tuple):
-    def __init__(self, spo):
-        self.spo = (
-            tuple(tokenizer.tokenize(spo[0])),
-            spo[1],
-            tuple(tokenizer.tokenize(spo[2])),
-        )
-
-
 def evalute(data, subject_model, object_model):
     X, Y, Z = 1e-10, 1e-10, 1e-10
+    _pred = set()
+    _real = set()
     f = open(Config.read_data_path + '/dev_pred.json', 'w', encoding='utf-8')
-    pbar = tqdm()
     for d in data:
         R = extract_spoes(d['text'], subject_model, object_model)
-        T = d['events']
-        R = set([SPO(spo) for spo in R])
-        T = set([SPO(spo) for spo in T])
+        for event in R:
+            _pred.add((event[1], event[0]))
+            _pred.add((event[1], event[2]))
+        for event in d['events']:
+            _real.add((event['trigger'], event['subject']))
+            _real.add((event['trigger'], event['object']))
 
-        X += len(R & T)
-        Y += len(R)
-        Z += len(T)
 
-        pbar.update()
+        X += len(_pred & _real)
+        Y += len(_pred)
+        Z += len(_real)
+
 
         s = json.dumps({
             'text': d['text'],
-            'events': list(T),
-            'events_pre': list(R),
+            'events': list(_real),
+            'events_pre': list(_pred),
         },
             ensure_ascii=False,
             indent=4
         )
         f.write(s + '\n')
     f1, precision, recall = 2 * X / (Y + Z), X / Y, X / Z
-    pbar.set_description(
-        'f1: %.5f, precision: %.5f, recall: %.5f' % (f1, precision, recall)
-    )
-    pbar.close()
     f.close()
     return f1, precision, recall
 
@@ -186,10 +182,15 @@ class Evaluator(keras.callbacks.Callback):
 if __name__ == "__main__":
     train_model, subject_model, object_model = build_model()
     train_generator = data_generator(tokenizer, predicate2id, Config.maxlen, train_data, Config.batch_size)
-    evalutor = Evaluator(train_model, subject_model, object_model)
+    evaluator = Evaluator(train_model, subject_model, object_model)
     train_model.fit_generator(
         train_generator.forfit(),
         steps_per_epoch=len(train_generator),
         epochs=Config.epochs,
-        callbacks=[evalutor]
+        callbacks=[evaluator]
     )
+else:
+    train_model, subject_model, object_model = build_model()
+    print('----------加载模型--------------')
+    train_model.load_weights(Config.save_path + '/best_model.weights')
+    print('----------模型加载完成--------------')
