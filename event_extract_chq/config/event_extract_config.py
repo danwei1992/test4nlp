@@ -1,5 +1,5 @@
 #读取数据路径
-read_data_path = './resources/event_extract_chq_pretrain/data'
+read_data_path = r'./resources/event_extract_pretrain/data'
 
 #模型保存路径
 save_path = './resources/event_extract_chq_pretrain/model'

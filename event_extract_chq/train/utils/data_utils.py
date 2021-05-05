@@ -1,3 +1,5 @@
+import os
+
 from test4nlp.event_extract.config import event_extract_config as Config
 import pandas as pd
 import numpy as np
@@ -6,7 +8,7 @@ from bert4keras.snippets import DataGenerator, sequence_padding
 
 def get_data(path):
     # 读取数据
-    train = pd.read_csv(path + '/chusai_data/train/train.csv', encoding='utf-8')
+    train = pd.read_csv(os.path.join(path, 'chusai_data/train/train.csv'), encoding='utf-8')
     train.fillna('', inplace=True)
 
     # 生成训练集与验证集
