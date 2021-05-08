@@ -1,5 +1,5 @@
-import os, sys
-sys.path.append(os.getcwd())
+# import os, sys
+# sys.path.append(os.getcwd())
 from test4nlp.ner_bilstm_crf import bilsm_crf_model
 EPOCHS = 2
 model, (train_x, train_y), (test_x, test_y) = bilsm_crf_model.create_model()
