@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-import json
 import numpy as np
 from bert4keras.backend import keras, K
 from bert4keras.models import build_transformer_model
