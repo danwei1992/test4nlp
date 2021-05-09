@@ -81,6 +81,6 @@ if __name__ == "__main__":
         )
 else:
     print("-------------加载模型-------------")
-    model.load_weights(f'{config.save_model_path}/abstract_best_model.weights')
+    model.load_weights(f'{config.save_model_path}/correction_seq2seq_best_model.weights')
     print("-----------模型加载完毕------------")
 
