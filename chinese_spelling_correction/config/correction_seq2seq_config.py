@@ -19,4 +19,4 @@ valid_data_path = './resources/chinese_spelling_correction_pretrain/data/valid_d
 # 测试数据保存文件
 valid_data_save = './resources/chinese_spelling_correction_pretrain/data'
 # 模型保存路径
-save_model_path = './resources/chinese_spelling_correction_pretrain/data/model'
+save_model_path = './resources/chinese_spelling_correction_pretrain/model'
