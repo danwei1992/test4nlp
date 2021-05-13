@@ -57,7 +57,7 @@ def get_encoder(
             count += 1
         except:
             break
-
+    print(len(outputs))
     if pooling == 'first-last-avg':
         outputs = [
             keras.layers.GlobalAveragePooling1D()(outputs[0]),
