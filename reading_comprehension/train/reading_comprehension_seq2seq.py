@@ -1,6 +1,6 @@
 import json, os, re, sys
 import numpy as np
-sys.path.append(os.getcwd())
+# sys.path.append(os.getcwd())
 from bert4keras.backend import keras, K
 from bert4keras.layers import Loss
 from bert4keras.models import build_transformer_model
@@ -31,8 +31,7 @@ else:
 # 划分valid
 train_data = [sogou_data[j] for i, j in enumerate(random_order) if i % 3 != 0]
 valid_data = [sogou_data[j] for i, j in enumerate(random_order) if i % 3 == 0]
-train_data.extend(train_data)
-train_data.extend(webqa_data)  # 将SogouQA和WebQA按2:1的比例混合
+train_data.extend(webqa_data)
 
 # 加载并精简词表，建立分词器
 token_dict, keep_tokens = load_vocab(

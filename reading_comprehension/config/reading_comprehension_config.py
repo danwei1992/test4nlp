@@ -7,7 +7,7 @@ max_a_len = 32
 #问答最大长度
 max_qa_len = max_q_len + max_a_len
 #每批次大小
-batch_size = 32
+batch_size = 8
 #批次
 epochs = 8
 #读取数据路径
