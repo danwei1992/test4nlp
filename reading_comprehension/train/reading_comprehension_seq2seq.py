@@ -199,16 +199,16 @@ reader = ReadingComprehension(
 )
 
 
-def predict_to_file(data, filename, topk=1):
+def predict_to_file(data, topk=1):
     """将预测结果输出到文件，方便评估
     """
-    with open(filename, 'w', encoding='utf-8') as f:
+    with open(os.path.join(config.data_path, 'valid_pred.txt'), 'w', encoding='utf-8') as f:
         for d in tqdm(iter(data), desc=u'正在预测(共%s条样本)' % len(data)):
             q_text = d['question']
             p_texts = [p['passage'] for p in d['passages']]
             a = reader.answer(q_text, p_texts, topk)
             if a:
-                s = u'%s\t%s\n' % (d['id'], a)
+                s = u'%s\t%s\t%s\n' % (d['id'], a, q_text)
             else:
                 s = u'%s\t\n' % (d['id'])
             f.write(s)
@@ -241,4 +241,6 @@ if __name__ == '__main__':
     )
 
 else:
+    print('----------加载模型-----------------')
     model.load_weights(os.path.join(config.save_path, 'best_model.weights'))
+    print('--------加载模型完毕----------------')
