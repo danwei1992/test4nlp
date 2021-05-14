@@ -2,6 +2,7 @@
 
 import json
 import numpy as np
+import json
 from tqdm import tqdm
 from bert4keras.backend import keras, K
 from bert4keras.layers import Loss
@@ -19,10 +20,10 @@ def corpus(data_path):
     """循环读取语料
     """
     while True:
-        with open(data_path) as f:
-            for l in f:
-                l = json.loads(l) 
-                yield l
+        ls = json.load(open(config.data_path, encoding='utf-8'))
+        print(len(ls))
+        for l in ls:
+            yield l
 
 
 # 加载并精简词表

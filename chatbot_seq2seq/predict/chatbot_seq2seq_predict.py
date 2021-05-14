@@ -1,8 +1,7 @@
 #! -*- coding: utf-8 -*-
 from test4nlp.chatbot_seq2seq.train.chatbot_seq2seq_train import model, tokenizer, chatbot
-import json
 
-role_a = input("对话内容：")
-content = json.loads(role_a)
+def chatbot_seq2seq(dialogue):
+    response = chatbot.response(dialogue)
+    return response
 
-print(chatbot.response(content))

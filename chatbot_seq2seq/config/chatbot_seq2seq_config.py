@@ -1,11 +1,11 @@
 #基本参数
 maxlen = 512
-batch_size = 10
+batch_size = 4
 steps_per_epoch = 1000
-epochs = 200
+epochs = 1700
 
 #数据路径
-data_path = './resources/chatbot_seq2seq_pretrain/data/LCCD-large-shuf.json'
+data_path = './resources/chatbot_seq2seq_pretrain/data/CleanWB.json'
 #补充词表
 use_tokens_path = './resources/chatbot_seq2seq_pretrain/data/user_tokens.csv'
 #模型保存
