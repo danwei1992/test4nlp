@@ -26,7 +26,7 @@ if task_name == 'STS-B':
     datasets = {
         'sts-b-train': load_sts_b_train_data(data_path + 'STS-B/train.tsv'),
         'sts-b-dev': load_sts_b_train_data(data_path + 'STS-B/dev.tsv'),
-        'sts-b-test': load_sts_b_test_data('/root/glue/STS-B/sts-test.csv')
+        'sts-b-predict': load_sts_b_test_data('/root/glue/STS-B/sts-predict.csv')
     }
 elif task_name.startswith('STS-1'):
     names = sts_12_16_names[task_name]
@@ -38,7 +38,7 @@ elif task_name == 'SICK-R':
     datasets = {
         'sick-r-train': load_sick_r_data(data_path + 'SICK-R/SICK_train.txt'),
         'sick-r-dev': load_sick_r_data(data_path + 'SICK-R/SICK_trial.txt'),
-        'sick-r-test':
+        'sick-r-predict':
             load_sick_r_data(data_path + 'SICK-R/SICK_test_annotated.txt'),
     }
 
@@ -89,7 +89,7 @@ else:
             mnli_train = load_mnli_train_data(data_path + 'MNLI/train.tsv')
             snli_train = load_snli_data(data_path + 'SNLI/train')
             snli_dev = load_snli_data(data_path + 'SNLI/dev')
-            snli_test = load_snli_data(data_path + 'SNLI/test')
+            snli_test = load_snli_data(data_path + 'SNLI/predict')
             nli_data = mnli_train + snli_train + snli_dev + snli_test
             nli_a_vecs, nli_b_vecs, _ = convert_to_vecs(
                 nli_data, tokenizer, encoder

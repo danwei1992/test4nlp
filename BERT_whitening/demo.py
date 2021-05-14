@@ -40,7 +40,7 @@ def load_test_data(filename):
 # 加载数据集
 datasets = {
     'sts-b-train': load_train_data('/root/glue/STS-B/train.tsv'),
-    'sts-b-test': load_test_data('/root/glue/STS-B/sts-test.csv')
+    'sts-b-predict': load_test_data('/root/glue/STS-B/sts-predict.csv')
 }
 
 # bert配置

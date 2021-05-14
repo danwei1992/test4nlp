@@ -32,7 +32,7 @@ data_path = '/root/senteval/'
 mnli_train = load_mnli_train_data(data_path + 'MNLI/train.tsv')
 snli_train = load_snli_data(data_path + 'SNLI/train')
 snli_dev = load_snli_data(data_path + 'SNLI/dev')
-snli_test = load_snli_data(data_path + 'SNLI/test')
+snli_test = load_snli_data(data_path + 'SNLI/predict')
 nli_data = mnli_train + snli_train + snli_dev + snli_test
 
 # 建立分词器

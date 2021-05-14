@@ -38,7 +38,7 @@ data_path = './resources/BERT_whitening_pretrain/chn/senteval_cn/'
 datasets = {
     '%s-%s' % (task_name, f):
     load_data('%s%s/%s.%s.data' % (data_path, task_name, task_name, f))
-    for f in ['train', 'valid', 'test']
+    for f in ['train', 'valid', 'predict']
 }
 
 # bert配置
