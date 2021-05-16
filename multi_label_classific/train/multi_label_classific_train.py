@@ -39,7 +39,7 @@ model.compile(
 def predict_single_text(text):
     # 利用BERT进行tokenize
     text = text[:config.maxlen]
-    x1, x2 = tokenizer.encode(first=text)
+    x1, x2 = tokenizer.encode(text)
     X1 = x1 + [0] * (config.maxlen - len(x1)) if len(x1) < config.maxlen else x1
     X2 = x2 + [0] * (config.maxlen - len(x2)) if len(x2) < config.maxlen else x2
 
@@ -53,13 +53,13 @@ class Evaluator(keras.callbacks.Callback):
     """评估与保存
     """
     def __init__(self):
-        self.precious = 0.
+        self.best_precious = 0.
 
     def on_epoch_end(self, epoch, logs=None):
         precious = evaluate()
-        if precious > self.best_val_acc:
+        if precious > self.best_precious:
             self.best_precious = precious
-            model.save_weights('best_model.weights')
+            model.save_weights(os.path.join(config.save_path, 'best_model.weights'))
         print(
             u'precious: %.5f, self.best_precious: %.5f\n' %
             (precious, self.best_precious)
@@ -94,8 +94,6 @@ if __name__ == '__main__':
         epochs=10,
         callbacks=[evaluator]
     )
-
-    model.load_weights(os.path.join(config.save_path, 'best_model.weights'))
 
 else:
     print('-------------加载模型----------------')
