@@ -1,6 +1,6 @@
 # 基本参数
 maxlen = 256
-batch_size = 8
+batch_size = 5
 
 # bert参数
 config_path = './resources/bert/chinese_L-12_H-768_A-12/bert_config.json'
