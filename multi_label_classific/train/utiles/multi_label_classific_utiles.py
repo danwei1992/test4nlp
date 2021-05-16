@@ -22,7 +22,6 @@ def getdata(data_path):
                 if _ not in labels:
                     labels.append(_)
     label_dict = dict(zip(range(len(labels)), labels))
-    print(label_dict)
     with open(os.path.join(config.save_path, "label.json"), "w", encoding="utf-8") as f:
         f.write(json.dumps(label_dict, ensure_ascii=False, indent=2))
 

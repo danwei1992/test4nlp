@@ -11,6 +11,7 @@ from test4nlp.multi_label_classific.train.utiles.multi_label_classific_utiles im
 
 set_gelu('tanh')  # 切换gelu版本
 train_data, test_df, label_dict = getdata(config.data_path)
+print(len(train_data))
 print(len(label_dict))
 
 # 加载预训练模型
