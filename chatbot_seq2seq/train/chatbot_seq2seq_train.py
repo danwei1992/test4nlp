@@ -4,6 +4,8 @@ import json
 import numpy as np
 import json
 from tqdm import tqdm
+import os, sys
+sys.path.append(os.getcwd())
 from bert4keras.backend import keras, K
 from bert4keras.layers import Loss
 from bert4keras.models import build_transformer_model

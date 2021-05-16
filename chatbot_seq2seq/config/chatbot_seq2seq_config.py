@@ -1,5 +1,5 @@
 #基本参数
-maxlen = 512
+maxlen = 515
 batch_size = 4
 steps_per_epoch = 1000
 epochs = 1700
