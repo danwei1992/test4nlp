@@ -6,7 +6,7 @@ from bert4keras.backend import keras, set_gelu
 from bert4keras.models import build_transformer_model
 from bert4keras.optimizers import Adam
 from keras.layers import Lambda, Dense
-import test4nlp.sentiment_classific.config.sentiment_classific_config as config
+import test4nlp.multi_label_classific.config.multi_label_classific_config as config
 from test4nlp.multi_label_classific.train.utiles.multi_label_classific_utiles import tokenizer, getdata, data_generator
 
 set_gelu('tanh')  # 切换gelu版本
