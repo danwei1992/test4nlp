@@ -1,5 +1,5 @@
 # 基本参数
-maxlen = 128
+maxlen = 88
 batch_size = 4
 
 # bert参数
