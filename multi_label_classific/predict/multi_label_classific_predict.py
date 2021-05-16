@@ -1,23 +1,11 @@
 # -*- coding: utf-8 -*-
-# @Time : 2020/12/23 15:28
-# @Author : Jclian91
-# @File : model_predict.py
-# @Place : Yangpu, Shanghai
-# 模型预测脚本
 
 import time
 import json
 import numpy as np
+from test4nlp.multi_label_classific.train.multi_label_classific_train import model
+import test4nlp.multi_label_classific.config.multi_label_classific_config as config
 
-from model_train import token_dict, OurTokenizer
-from keras.models import load_model
-from keras_bert import get_custom_objects
-
-maxlen = 256
-
-# 加载训练好的模型
-model = load_model("multi-label-ee.h5", custom_objects=get_custom_objects())
-tokenizer = OurTokenizer(token_dict)
 with open("label.json", "r", encoding="utf-8") as f:
     label_dict = json.loads(f.read())
 

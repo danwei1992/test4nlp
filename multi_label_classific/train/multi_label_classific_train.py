@@ -13,6 +13,7 @@ set_gelu('tanh')  # 切换gelu版本
 train_data, test_df, label_dict = getdata(config.data_path)
 print(len(train_data))
 print(len(label_dict))
+print(label_dict[0])
 
 # 加载预训练模型
 bert = build_transformer_model(
@@ -76,6 +77,8 @@ def evaluate():
                 true_y[int(key)] = 1
 
         pred_label = predict_single_text(content)
+        print(true_label)
+        print(pred_label)
         if set(true_label.split("|")) == set(pred_label.split("|")):
             common_cnt += 1
         precious = common_cnt / len(test_df)
