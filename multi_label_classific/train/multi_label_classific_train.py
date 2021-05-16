@@ -47,7 +47,7 @@ def predict_single_text(text):
     # 模型预测并输出预测结果
     prediction = model.predict([[X1], [X2]])
     one_hot = np.where(prediction > 0.5, 1, 0)[0]
-    return "|".join([label_dict[str(i)] for i in range(len(one_hot)) if one_hot[i]])
+    return "|".join([label_dict[i] for i in range(len(one_hot)) if one_hot[i]])
 
 
 class Evaluator(keras.callbacks.Callback):
@@ -77,8 +77,10 @@ def evaluate():
                 true_y[int(key)] = 1
 
         pred_label = predict_single_text(content)
+        print('---------------------------------------')
         print(true_label)
         print(pred_label)
+        print('----------------------------------------')
         if set(true_label.split("|")) == set(pred_label.split("|")):
             common_cnt += 1
         precious = common_cnt / len(test_df)
