@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os, sys
 import numpy as np
-sys.path.append(os.getcwd())
+# sys.path.append(os.getcwd())
 from bert4keras.backend import keras, set_gelu
 from bert4keras.models import build_transformer_model
 from bert4keras.optimizers import Adam
