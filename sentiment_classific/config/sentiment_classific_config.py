@@ -1,7 +1,7 @@
 # 基本参数
-num_classes = 2
-maxlen = 128
-batch_size = 32
+num_classes = 10
+maxlen = 256
+batch_size = 12
 
 #数据路径
 data_path = './resources/sentiment_classific_pretrain/data'
